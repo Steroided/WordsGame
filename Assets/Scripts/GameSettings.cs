@@ -14,5 +14,6 @@ public class GameSettings : ScriptableObject
             return _Instance ?? Resources.Load<GameSettings>("GameSettings");
         }
     }
-    public int MaxClustersUI = 4;
+    public int MaxClustersUIPerSlot = 4;
+    public float OnDraggableOffsetXRatio = 1;
 }

@@ -9,6 +9,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Image _image;
     private CanvasGroup _group;
     public Transform ParentAfterDrag;
+    private float _xOffset;
     private void Start()
     {
         _image = GetComponent<Image>();
@@ -17,6 +18,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        _xOffset = GetComponent<RectTransform>().sizeDelta.x / GameSettings.Instance.OnDraggableOffsetXRatio;
         ParentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -27,12 +29,13 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        transform.position = Input.mousePosition + new Vector3(_xOffset,0);
         
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        transform.SetParent(ParentAfterDrag,false);
         _group.alpha = 1f;
         _image.raycastTarget = true;
     }

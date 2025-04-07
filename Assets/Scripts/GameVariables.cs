@@ -1,6 +1,6 @@
 public class GameVariables
 {
-    public enum ClusterMod
+    public enum ClusterMode
     {
         two,
         three,

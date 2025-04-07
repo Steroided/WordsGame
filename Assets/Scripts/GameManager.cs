@@ -84,11 +84,11 @@ public class GameManager : MonoBehaviour
 
     private void CreateWordCluster(Word word)
     {
-        ClusterMod mod = (ClusterMod)UnityEngine.Random.Range(0, Enum.GetNames(typeof(ClusterMod)).Length);
+        ClusterMode mod = (ClusterMode)UnityEngine.Random.Range(0, Enum.GetNames(typeof(ClusterMode)).Length);
         switch (mod)
         {
 
-            case ClusterMod.two:
+            case ClusterMode.two:
                 {
 
                     if (word.WordString.Length % 2 == 0)
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-            case ClusterMod.three:
+            case ClusterMode.three:
                 {
                     if (word.WordString.Length % 3 == 0)
                     {
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-            case ClusterMod.four:
+            case ClusterMode.four:
                 {
                     if (word.WordString.Length % 4 == 0)
                     {

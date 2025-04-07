@@ -34,6 +34,8 @@ public class Word : MonoBehaviour
         cluster.name = "Cluster2";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
+        ClusterId id = cluster.GetComponent<ClusterId>();
+        id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text;
     }
     public void CreateCluster(int s1, int s2, int s3)
     {
@@ -42,6 +44,8 @@ public class Word : MonoBehaviour
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
         Symbols[s3].transform.SetParent(cluster.transform, false);
+        ClusterId id = cluster.GetComponent<ClusterId>();
+        id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text;
     }
     public void CreateCluster(int s1, int s2, int s3, int s4)
     {
@@ -51,5 +55,7 @@ public class Word : MonoBehaviour
         Symbols[s2].transform.SetParent(cluster.transform, false);
         Symbols[s3].transform.SetParent(cluster.transform, false);
         Symbols[s4].transform.SetParent(cluster.transform, false);
+        ClusterId id = cluster.GetComponent<ClusterId>();
+        id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text + Symbols[s4].Text.text;
     }
 }

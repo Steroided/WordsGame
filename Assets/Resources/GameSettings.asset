@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933c585d4425591438506b10acfdd469, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  MaxClustersUI: 4
+  MaxClustersUIPerSlot: 1
+  OnDraggableOffsetXRatio: 6

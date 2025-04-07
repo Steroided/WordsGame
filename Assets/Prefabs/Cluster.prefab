@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6795268798385625124}
   - component: {fileID: 8496599942180492142}
   - component: {fileID: 177910626607333253}
+  - component: {fileID: 1049318518144486100}
   m_Layer: 5
   m_Name: Cluster
   m_TagString: Untagged
@@ -128,4 +129,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b321fe79561e134dbe52b7a953a7477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentAfterDrag: {fileID: 0}
+  ParentAfterDrag: {fileID: 0}
+--- !u!114 &1049318518144486100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946554554607692698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5243d4e21851c8145aac9e016f437dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: 
