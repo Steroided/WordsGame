@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     }
    
-    public void CreateWords()
+    private void CreateWords()
     {
         for (int i = 0; i < WordCount; i++)
         {           
@@ -45,23 +45,23 @@ public class GameManager : MonoBehaviour
             _words.Add(w);
         }
     }
-    public void PickWord()
+    private void PickWord()
     {
 
     }
-    public void PickMiddle()
+    private void PickMiddle()
     {
 
     }
-    
-    public void CreateWordClusters()
+
+    private void CreateWordClusters()
     {
         for (int i = 0; i < _words.Count; i++)
         {
             CreateWordClusterEntity(_words[i]);
         }
     }
-    public async void CreateWordClusterEntity(Word word)
+    private async void CreateWordClusterEntity(Word word)
     {
         //ждем пока слово соберётся , при этом не мешаем остальным словам
         Task waitAllTrue = Task.Run(() =>
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
       
     }
 
-    public void CreateWordCluster(Word word)
+    private void CreateWordCluster(Word word)
     {
         ClusterMod mod = (ClusterMod)UnityEngine.Random.Range(0, Enum.GetNames(typeof(ClusterMod)).Length);
         switch (mod)
