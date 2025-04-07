@@ -9,9 +9,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Image _image;
     private CanvasGroup _group;
     public Transform ParentAfterDrag;
-    [HideInInspector]
-    public bool Swap = false;
-
     private void Start()
     {
         _image = GetComponent<Image>();

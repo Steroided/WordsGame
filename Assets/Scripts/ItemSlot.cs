@@ -7,37 +7,21 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     {
         if (gameObject.name == "ClusterBase" || gameObject.transform.childCount<GameSettings.Instance.MaxClustersUI)
         {
-            eventData.pointerDrag.GetComponent<DraggableItem>().ParentAfterDrag = transform;
-            eventData.pointerDrag.GetComponent<DraggableItem>().transform.SetParent(transform,true);
-            eventData.pointerDrag.GetComponent<DraggableItem>().Swap = true;
-            print("DROP");
-
-            switch (transform.childCount)
-            {
-                case 2:
-                    {
-                        print(eventData.pointerDrag.transform.position.x);
-                        print(transform.GetChild(0).transform.position.x);
-                        if (eventData.pointerDrag.transform.position.x < transform.GetChild(0).transform.position.x)
-                            eventData.pointerDrag.transform.SetAsFirstSibling();
-                    }
-                    break;
-                case 3:
-                    {
-                        if (eventData.pointerDrag.transform.position.x < transform.GetChild(0).transform.position.x)
-                            eventData.pointerDrag.transform.SetAsFirstSibling();
-                        if (eventData.pointerDrag.transform.position.x < transform.GetChild(1).transform.position.x)
-                            transform.GetChild(1).transform.SetAsLastSibling();
-                    }
-                    break;
-            }
+            DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
+            d.ParentAfterDrag = transform;
+            d.transform.SetParent(transform,true);
+            CheckChildShift(transform.childCount, d.transform);
         }
     }
-    private void CheckChild(int childCount)
+    private void CheckChildShift(int childCount, Transform draggable)
     {
-        for(int i = 0; i < childCount; i++)
+        for (int i = 0; i < childCount; i++)
         {
-
+            if (transform.GetChild(i).transform.position.x > draggable.position.x)
+            {
+                draggable.SetSiblingIndex(i);
+                break;
+            }
         }
     }
 }
