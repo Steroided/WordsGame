@@ -8,40 +8,41 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.UI;
 using static GameVariables;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private List<Word> _words;
+    [SerializeField]
+    public int _wordCount = 1;
+    private string _wordString = "класте";
+    [SerializeField]
+    private Word _wordPrefab;
+    [SerializeField]
+    private Transform _wordsParent;
+    [SerializeField]
+    private Transform _clusterBase;
 
-    public int WordCount = 1;
-    public string WordString = "кластер";
-    public Transform WordsParent;
-
-    public Word WordPrefab;
-    public Transform ClusterBase;
+    [SerializeField]
+    private Button _clusterValidateButton;
     void Awake()
     {
-
+        _clusterValidateButton.onClick.AddListener(ValidateClusters);
     }
     void Start()
     {
-        CreateWords();
-
-        
+        CreateWords();     
         CreateWordClusters();
-
-
-
     }
    
     private void CreateWords()
     {
-        for (int i = 0; i < WordCount; i++)
+        for (int i = 0; i < _wordCount; i++)
         {           
-            Word w = Instantiate(WordPrefab, WordsParent);
-            w.WordString = WordString;
+            Word w = Instantiate(_wordPrefab, _wordsParent);
+            w.WordString = _wordString;
             _words.Add(w);
         }
     }
@@ -53,7 +54,13 @@ public class GameManager : MonoBehaviour
     {
 
     }
-
+    public void ValidateClusters()
+    {
+        foreach(Word w in _words)
+        {
+            w.ValidateClusters();
+        }
+    }
     private void CreateWordClusters()
     {
         for (int i = 0; i < _words.Count; i++)
@@ -93,9 +100,9 @@ public class GameManager : MonoBehaviour
 
                     if (word.WordString.Length % 2 == 0)
                     {
-                        word.CreateCluster(0, 1,ClusterBase);
-                        word.CreateCluster(2, 3, ClusterBase);
-                        word.CreateCluster(4, 5, ClusterBase);
+                        word.CreateCluster(0, 1,_clusterBase);
+                        word.CreateCluster(2, 3, _clusterBase);
+                        word.CreateCluster(4, 5, _clusterBase);
                     }
                     else
                     {
@@ -107,8 +114,8 @@ public class GameManager : MonoBehaviour
                 {
                     if (word.WordString.Length % 3 == 0)
                     {
-                        word.CreateCluster(0, 1, 2, ClusterBase);
-                        word.CreateCluster(3, 4, 5, ClusterBase);
+                        word.CreateCluster(0, 1, 2, _clusterBase);
+                        word.CreateCluster(3, 4, 5, _clusterBase);
 
                     }
                     else
@@ -130,13 +137,13 @@ public class GameManager : MonoBehaviour
                         print(rand);
                         if (rand == 0)
                         {
-                            word.CreateCluster(0, 1, 2, 3, ClusterBase);
-                            word.CreateCluster(4, 5, ClusterBase);
+                            word.CreateCluster(0, 1, 2, 3, _clusterBase);
+                            word.CreateCluster(4, 5, _clusterBase);
                         }
                         else
                         {
-                            word.CreateCluster(0, 1, ClusterBase);
-                            word.CreateCluster(2, 3, 4, 5, ClusterBase);
+                            word.CreateCluster(0, 1, _clusterBase);
+                            word.CreateCluster(2, 3, 4, 5, _clusterBase);
 
                         }
                     }

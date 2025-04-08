@@ -29,8 +29,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition + new Vector3(_xOffset,0);
-        
+        transform.position = Input.mousePosition + new Vector3(_xOffset,0);    
     }
     
     public void OnEndDrag(PointerEventData eventData)

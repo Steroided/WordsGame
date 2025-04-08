@@ -77,7 +77,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _words: []
-  WordCount: 4
-  WordString: "\u043A\u043B\u0430\u0441\u0442\u0435"
-  WordsParent: {fileID: 0}
-  WordPrefab: {fileID: 1772388582435900831, guid: 9270c7f2b1b8ff647a0ced223307650b, type: 3}
+  _wordCount: 4
+  _wordPrefab: {fileID: 0}
+  _wordsParent: {fileID: 0}
+  _clusterBase: {fileID: 0}
+  _clusterValidateButton: {fileID: 0}
