@@ -11,10 +11,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
             if (gameObject.name != "ClusterBase")
             {
-                int ClusterLength = d.GetComponent<ClusterId>().Key.Length-1;
+                int ClusterLength = d.GetComponent<Cluster>().Key.Length;
                 int SiblingIndex = transform.GetSiblingIndex();
                 print(SiblingIndex);
-                for (int i = 0; i < ClusterLength; i++)
+                for (int i = 0; i < ClusterLength-1; i++)
                 {
 
 

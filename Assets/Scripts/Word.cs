@@ -34,7 +34,7 @@ public class Word : MonoBehaviour
         cluster.name = "Cluster2";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
-        ClusterId id = cluster.GetComponent<ClusterId>();
+        Cluster id = cluster.GetComponent<Cluster>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text;
     }
     public void CreateCluster(int s1, int s2, int s3, Transform clusterBase)
@@ -44,7 +44,7 @@ public class Word : MonoBehaviour
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
         Symbols[s3].transform.SetParent(cluster.transform, false);
-        ClusterId id = cluster.GetComponent<ClusterId>();
+        Cluster id = cluster.GetComponent<Cluster>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text;
     }
     public void CreateCluster(int s1, int s2, int s3, int s4, Transform clusterBase)
@@ -55,7 +55,33 @@ public class Word : MonoBehaviour
         Symbols[s2].transform.SetParent(cluster.transform, false);
         Symbols[s3].transform.SetParent(cluster.transform, false);
         Symbols[s4].transform.SetParent(cluster.transform, false);
-        ClusterId id = cluster.GetComponent<ClusterId>();
+        Cluster id = cluster.GetComponent<Cluster>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text + Symbols[s4].Text.text;
+    }
+    public void ValidateClusters()
+    {
+        Cluster[] ids = GetComponentsInChildren<Cluster>();
+        string check = string.Empty;
+        print(ids.Length);
+        for(int i = ids.Length-1; i >=0 ; i--)
+        {
+            check += ids[i].Key;
+        }
+
+        print(check);
+        if (check == WordString)
+        {
+            foreach(Cluster c in ids)
+            {
+                c.SetClusterColor(Color.green);
+            }
+        }
+        else
+        {
+            foreach (Cluster c in ids)
+            {
+                c.SetClusterColor(Color.red);
+            }
+        }
     }
 }
