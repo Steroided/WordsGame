@@ -28,18 +28,18 @@ public class Word : MonoBehaviour
         }
         WordReady = true;
     }
-    public void CreateCluster(int s1, int s2)
+    public void CreateCluster(int s1, int s2, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, transform);
+        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
         cluster.name = "Cluster2";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
         ClusterId id = cluster.GetComponent<ClusterId>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text;
     }
-    public void CreateCluster(int s1, int s2, int s3)
+    public void CreateCluster(int s1, int s2, int s3, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, transform);
+        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
         cluster.name = "Cluster3";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -47,9 +47,9 @@ public class Word : MonoBehaviour
         ClusterId id = cluster.GetComponent<ClusterId>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text;
     }
-    public void CreateCluster(int s1, int s2, int s3, int s4)
+    public void CreateCluster(int s1, int s2, int s3, int s4, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, transform);
+        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
         cluster.name = "Cluster4";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);

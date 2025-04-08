@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Transform WordsParent;
 
     public Word WordPrefab;
-
+    public Transform ClusterBase;
     void Awake()
     {
 
@@ -93,9 +93,9 @@ public class GameManager : MonoBehaviour
 
                     if (word.WordString.Length % 2 == 0)
                     {
-                        word.CreateCluster(0, 1);
-                        word.CreateCluster(2, 3);
-                        word.CreateCluster(4, 5);
+                        word.CreateCluster(0, 1,ClusterBase);
+                        word.CreateCluster(2, 3, ClusterBase);
+                        word.CreateCluster(4, 5, ClusterBase);
                     }
                     else
                     {
@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
                 {
                     if (word.WordString.Length % 3 == 0)
                     {
-                        word.CreateCluster(0, 1, 2);
-                        word.CreateCluster(3, 4, 5);
+                        word.CreateCluster(0, 1, 2, ClusterBase);
+                        word.CreateCluster(3, 4, 5, ClusterBase);
 
                     }
                     else
@@ -130,13 +130,13 @@ public class GameManager : MonoBehaviour
                         print(rand);
                         if (rand == 0)
                         {
-                            word.CreateCluster(0, 1, 2, 3);
-                            word.CreateCluster(4, 5);
+                            word.CreateCluster(0, 1, 2, 3, ClusterBase);
+                            word.CreateCluster(4, 5, ClusterBase);
                         }
                         else
                         {
-                            word.CreateCluster(0, 1);
-                            word.CreateCluster(2, 3, 4, 5);
+                            word.CreateCluster(0, 1, ClusterBase);
+                            word.CreateCluster(2, 3, 4, 5, ClusterBase);
 
                         }
                     }

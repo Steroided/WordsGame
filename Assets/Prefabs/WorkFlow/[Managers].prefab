@@ -80,4 +80,4 @@ MonoBehaviour:
   WordCount: 4
   WordString: "\u043A\u043B\u0430\u0441\u0442\u0435"
   WordsParent: {fileID: 0}
-  WordPrefab: {fileID: 2165913272986656897, guid: b323fa5ccca3beb4283f5f83714f6a4a, type: 3}
+  WordPrefab: {fileID: 1772388582435900831, guid: 9270c7f2b1b8ff647a0ced223307650b, type: 3}
