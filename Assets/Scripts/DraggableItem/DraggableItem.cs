@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +12,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         _image = GetComponent<Image>();
         _group = GetComponent<CanvasGroup>();
+        
     }
 
     public void OnBeginDrag(PointerEventData eventData)

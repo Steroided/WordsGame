@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _clusterValidateButton.onClick.AddListener(ValidateClusters);
+        RemoteJsonParser parser = new RemoteJsonParser();
+        parser.FetchAsync();
+        //remotejso
     }
     void Start()
     {

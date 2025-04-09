@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxClustersUIPerSlot: 1
   OnDraggableOffsetXRatio: 6
+  FetchTimeoutMs: 6000
