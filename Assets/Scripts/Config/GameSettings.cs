@@ -16,4 +16,5 @@ public class GameSettings : ScriptableObject
     }
     public int MaxClustersUIPerSlot = 1;
     public float OnDraggableOffsetXRatio = 1;
+    public int FetchTimeoutMs = 6000;
 }
