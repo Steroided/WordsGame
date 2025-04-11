@@ -1,0 +1,183 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+using static GameVariables;
+
+public class GameManager : MonoBehaviour
+{
+    [SerializeField]
+    private List<Word> _words;
+    [SerializeField]
+    public int _wordCount = 1;
+    private string[] _wordStrings;
+    [SerializeField]
+    private Word _wordPrefab;
+    [SerializeField]
+    private Transform _wordsParent;
+    [SerializeField]
+    private Transform _clusterBase;
+
+    [SerializeField]
+    private Button _clusterValidateButton;
+    async void Awake()
+    {
+        
+        RemoteConfigLoader.Instance.Init();
+        Task waitAllTrue = Task.Run(() =>
+        {
+            do
+            {
+                Thread.Sleep(100);
+                print("FetchNotCompleted");
+            }
+            while (!RemoteConfigLoader.Instance.Fetched);
+
+        });
+        await waitAllTrue;
+        if (RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level1"))
+        {
+            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["Level1"];
+        }
+        else
+        {
+            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
+        }
+       
+        _clusterValidateButton.onClick.AddListener(()=> ValidateClusters(_wordStrings));
+        CreateWords(_wordStrings);
+        CreateWordClusters();
+    }
+    void Start()
+    {
+       
+    }
+    public void WaitForFetchCompleted()
+    {
+
+    }
+    private void CreateWords(string[] words)
+    {
+        for (int i = 0; i < _wordCount; i++)
+        {           
+            Word w = Instantiate(_wordPrefab, _wordsParent);
+            w.WordString = words[i];
+            _words.Add(w);
+        }
+    }
+    private void PickWord()
+    {
+
+    }
+    private void PickMiddle()
+    {
+
+    }
+    public void ValidateClusters(string[] words)
+    {
+        foreach(Word w in _words)
+        {
+            w.ValidateClusters(words);
+        }
+    }
+    private void CreateWordClusters()
+    {
+        for (int i = 0; i < _words.Count; i++)
+        {
+            CreateWordClusterEntity(_words[i]);
+        }
+    }
+    private async void CreateWordClusterEntity(Word word)
+    {
+        //ждем пока слово соберётся , при этом не мешаем остальным словам
+        Task waitAllTrue = Task.Run(() =>
+        {
+            do
+            {
+                Thread.Sleep(100);
+                print("wordNotReady");
+            }
+            while (!word.WordReady);
+
+        });
+
+
+        await waitAllTrue;
+        
+        CreateWordCluster(word);
+      
+    }
+
+    private void CreateWordCluster(Word word)
+    {
+        ClusterMode mod = (ClusterMode)UnityEngine.Random.Range(0, Enum.GetNames(typeof(ClusterMode)).Length);
+        switch (mod)
+        {
+
+            case ClusterMode.two:
+                {
+
+                    if (word.WordString.Length % 2 == 0)
+                    {
+                        word.CreateCluster(0, 1,_clusterBase);
+                        word.CreateCluster(2, 3, _clusterBase);
+                        word.CreateCluster(4, 5, _clusterBase);
+                    }
+                    else
+                    {
+
+                    }
+                }
+                break;
+            case ClusterMode.three:
+                {
+                    if (word.WordString.Length % 3 == 0)
+                    {
+                        word.CreateCluster(0, 1, 2, _clusterBase);
+                        word.CreateCluster(3, 4, 5, _clusterBase);
+
+                    }
+                    else
+                    {
+
+
+                    }
+                }
+                break;
+            case ClusterMode.four:
+                {
+                    if (word.WordString.Length % 4 == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        int rand = UnityEngine.Random.Range(0, 2);
+                        print(rand);
+                        if (rand == 0)
+                        {
+                            word.CreateCluster(0, 1, 2, 3, _clusterBase);
+                            word.CreateCluster(4, 5, _clusterBase);
+                        }
+                        else
+                        {
+                            word.CreateCluster(0, 1, _clusterBase);
+                            word.CreateCluster(2, 3, 4, 5, _clusterBase);
+
+                        }
+                    }
+                }
+                break;
+
+        }
+        Debug.Log(word.Symbols.Count);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

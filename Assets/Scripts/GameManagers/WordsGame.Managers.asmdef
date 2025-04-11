@@ -1,0 +1,20 @@
+{
+    "name": "WordsGame",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:c7aa79ef743e1df4f873921f86e9b256",
+        "GUID:a8ae50baff8d8ab4599b59c61e1395e3",
+        "GUID:6d701e25e29609740813718fd58c5037",
+        "GUID:41b466a5864bffc43b622d4f78426ffd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,20 @@
+{
+    "name": "WordsGame.Utils",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5540e30183c82e84b954c033c388e06c",
+        "GUID:fe25561d224ed4743af4c60938a59d0b",
+        "GUID:9d6c7830d9ab746a7a12f144bdeeee7c",
+        "GUID:a8ae50baff8d8ab4599b59c61e1395e3",
+        "GUID:97c5f80aedebbb94e9f380f45fba8ba4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

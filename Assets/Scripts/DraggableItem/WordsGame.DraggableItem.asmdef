@@ -1,0 +1,17 @@
+{
+    "name": "WordsGame.DraggableItem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c7aa79ef743e1df4f873921f86e9b256",
+        "GUID:a8ae50baff8d8ab4599b59c61e1395e3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
