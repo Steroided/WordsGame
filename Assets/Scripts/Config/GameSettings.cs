@@ -17,4 +17,7 @@ public class GameSettings : ScriptableObject
     public int MaxClustersUIPerSlot = 1;
     public float OnDraggableOffsetXRatio = 1;
     public int FetchTimeoutMs = 6000;
+    public int MaxWords = 4;
+    public int MaxSymbolsPerWord = 6;
+    public string[] WordsLevelDefault;
 }

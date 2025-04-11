@@ -5,30 +5,26 @@ using Unity.Services.Core;
 using Unity.Services.RemoteConfig;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.IO;
 
 public class RemoteJsonParser
 {
-    public int LevelNum = 1;
-
-    public WordsSave WordsSave;
     struct EmptyStruct { }
     // Start is called before the first frame update
-    public async void FetchAsync()
+    public async Task<WordsForLevels> FetchAsync()
     {
         RuntimeConfig res;
         try
         {
-            res = await Fetch().TimeoutWithResult(GameSettings.Instance.FetchTimeoutMs); 
-       
-            WordsSave = JsonConvert.DeserializeObject<WordsSave>(res.GetJson("WordsLevel" + LevelNum));
-            Debug.Log(WordsSave.Words6Letter[0]);
-
+            res = await Fetch().TimeoutWithResult(GameSettings.Instance.FetchTimeoutMs);       
+            return(JsonConvert.DeserializeObject<WordsForLevels>(res.GetJson("Words")));
         }
         catch (Exception e)
         {
             Debug.LogError(e);
             Debug.LogError("Failed to fetch configs, is your project linked and configuration deployed?");
         }
+        return null;
     }
    
     public async Task<RuntimeConfig> Fetch()

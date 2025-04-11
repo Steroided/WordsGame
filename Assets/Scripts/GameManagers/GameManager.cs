@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 using static GameVariables;
 
@@ -17,7 +12,7 @@ public class GameManager : MonoBehaviour
     private List<Word> _words;
     [SerializeField]
     public int _wordCount = 1;
-    private string _wordString = "класте";
+    private string[] _wordStrings;
     [SerializeField]
     private Word _wordPrefab;
     [SerializeField]
@@ -27,25 +22,48 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Button _clusterValidateButton;
-    void Awake()
+    async void Awake()
     {
-        _clusterValidateButton.onClick.AddListener(ValidateClusters);
-        RemoteJsonParser parser = new RemoteJsonParser();
-        parser.FetchAsync();
-        //remotejso
+        
+        RemoteConfigLoader.Instance.Init();
+        Task waitAllTrue = Task.Run(() =>
+        {
+            do
+            {
+                Thread.Sleep(100);
+                print("FetchNotCompleted");
+            }
+            while (!RemoteConfigLoader.Instance.Fetched);
+
+        });
+        await waitAllTrue;
+        if (RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level1"))
+        {
+            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["Level1"];
+        }
+        else
+        {
+            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
+        }
+       
+        _clusterValidateButton.onClick.AddListener(()=> ValidateClusters(_wordStrings));
+        CreateWords(_wordStrings);
+        CreateWordClusters();
     }
     void Start()
     {
-        CreateWords();     
-        CreateWordClusters();
+       
     }
-   
-    private void CreateWords()
+    public void WaitForFetchCompleted()
+    {
+
+    }
+    private void CreateWords(string[] words)
     {
         for (int i = 0; i < _wordCount; i++)
         {           
             Word w = Instantiate(_wordPrefab, _wordsParent);
-            w.WordString = _wordString;
+            w.WordString = words[i];
             _words.Add(w);
         }
     }
@@ -57,11 +75,11 @@ public class GameManager : MonoBehaviour
     {
 
     }
-    public void ValidateClusters()
+    public void ValidateClusters(string[] words)
     {
         foreach(Word w in _words)
         {
-            w.ValidateClusters();
+            w.ValidateClusters(words);
         }
     }
     private void CreateWordClusters()
