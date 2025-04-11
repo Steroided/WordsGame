@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using static UnityEditor.PlayerSettings;
 
 public class Word : MonoBehaviour
 {
@@ -60,23 +58,36 @@ public class Word : MonoBehaviour
         Cluster id = cluster.GetComponent<Cluster>();
         id.Key = Symbols[s1].Text.text + Symbols[s2].Text.text + Symbols[s3].Text.text + Symbols[s4].Text.text;
     }
-    public void ValidateClusters()
+    public void ValidateClusters(string[] words)
     {
         Cluster[] clusters = GetComponentsInChildren<Cluster>();
-        string check = string.Empty;
+        string sumClusters = string.Empty;
         print(clusters.Length);
         for(int i = clusters.Length-1; i >=0 ; i--)
         {
-            check += clusters[i].Key;
+            sumClusters += clusters[i].Key;
         }
-        print(check);
-        if (check == WordString)
+        foreach(string check in words)
         {
-            StartCoroutine(SetColorIE(clusters, Color.green));
+            if(sumClusters == check)
+            {
+                print("WORDSTRUE");
+                StartCoroutine(SetColorIE(clusters, Color.green));
+                return;
+            }
+            else
+            {
+                print("WORDFALSE");
+                StartCoroutine(SetColorIE(clusters, Color.red));
+            }
+        }
+        if (sumClusters == WordString)
+        {
+            
         }
         else
         {
-            StartCoroutine(SetColorIE(clusters, Color.red));
+            
         }
     }
     private IEnumerator SetColorIE(Cluster[] clusters, Color colorEvent)
