@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   MaxClustersUIPerSlot: 1
-  OnDraggableOffsetXRatio: 4.67
+  OnDraggableOffsetXRatio: 5
   FetchTimeoutMs: 6000
   MaxWords: 4
   MaxSymbolsPerWord: 6

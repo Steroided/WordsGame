@@ -10,6 +10,6 @@ public class MainMenuManager : MonoBehaviour
 
      void Awake()
     {
-        _start.onClick.AddListener(() => SceneLoader.Instance.LoadLevel(1));
+        _start.onClick.AddListener(() => SceneLoader.Instance.LoadNextLevel());
     }
 }

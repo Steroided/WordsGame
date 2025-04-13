@@ -14,5 +14,9 @@ public class Cluster : MonoBehaviour
         _image = GetComponent<Image>(); 
         DefaultColor = _image.color;
     }
-    public void SetClusterColor(Color color) => _image.color = color;
+    public void SetClusterColor(Color color) 
+    {
+        _image.enabled = color == new Color(0, 0, 0, 0) ? false : true;
+        _image.color = color;
+    } 
 }

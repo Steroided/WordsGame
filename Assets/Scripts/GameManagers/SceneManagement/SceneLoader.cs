@@ -11,8 +11,18 @@ namespace Systems.SceneManagement {
         [SerializeField] Canvas loadingCanvas;
         [SerializeField] Camera loadingCamera;
         [SerializeField] SceneGroup[] sceneGroups;
-        
 
+        private int _currentLevel;
+
+        public int CurrentLevel
+        {
+            get { return _currentLevel; }
+            set 
+            {
+                _currentLevel = value;
+                 LoadLevel(_currentLevel);
+            }
+        }
 
         float targetProgress;
         bool isLoading;
@@ -20,21 +30,21 @@ namespace Systems.SceneManagement {
         public readonly SceneGroupManager manager = new SceneGroupManager();
 
 
-
-        void Awake() {
-            //TODO can remove
-            manager.OnSceneLoaded += sceneName => Debug.Log("Loaded: " + sceneName);
-            manager.OnSceneUnloaded += sceneName => Debug.Log("Unloaded: " + sceneName);
-            manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
+        private void Start()
+        {
+            LoadLevel(0);
         }
 
-        async void Start() 
+        public void LoadLevel(int level)
         {
-            await LoadLevel(0);
+            LoadSceneGroup(level);
         }
-        public async Task LoadLevel(int level)
+        public void LoadNextLevel()
         {
-            await LoadSceneGroup(level);
+            //if (sceneGroups[CurrentLevel].GroupName.Contains(char(CurrentLevel++)))
+            if (CurrentLevel < GameSettings.Instance.TotalLevels)
+                CurrentLevel++;
+            else CurrentLevel = 1;
         }
 
         void Update() {

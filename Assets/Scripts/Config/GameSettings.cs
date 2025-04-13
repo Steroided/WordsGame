@@ -18,6 +18,7 @@ public class GameSettings : ScriptableObject
     public float OnDraggableOffsetXRatio = 1;
     public int FetchTimeoutMs = 6000;
     public int MaxWords = 4;
+    public int TotalLevels = 4;
     public int MaxSymbolsPerWord = 6;
     public string[] WordsLevelDefault;
 }
