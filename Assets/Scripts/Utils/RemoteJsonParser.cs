@@ -6,9 +6,18 @@ using Unity.Services.RemoteConfig;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using Zenject;
 
 public class RemoteJsonParser
 {
+    private GameSettings _gameSettings;
+    public RemoteJsonParser(GameSettings settings)
+    {
+        _gameSettings = settings;
+    }
+
+
+
     struct EmptyStruct { }
     public async UniTask<WordsForLevels> FetchAsync()
     {
@@ -16,7 +25,7 @@ public class RemoteJsonParser
         try
         {
             CancellationTokenSource cts = new CancellationTokenSource();
-            cts.CancelAfter(GameSettings.Instance.FetchTimeoutMs);
+            cts.CancelAfter(_gameSettings.FetchTimeoutMs);
             res = await Fetch(cts.Token);
             return(JsonConvert.DeserializeObject<WordsForLevels>(res.GetJson("Words")));
         }

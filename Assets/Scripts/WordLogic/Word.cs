@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Word : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class Word : MonoBehaviour
     public GameObject ClusterPrefab;
     public List<Symbol> Symbols;
 
-  
+    [Inject]
+    private DiContainer _clusterContainer;
+
     private void Start()
     {
         SpawnSymbols();
@@ -30,7 +33,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster2";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -39,7 +42,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, int s3, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster3";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -49,7 +52,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, int s3, int s4, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster4";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);

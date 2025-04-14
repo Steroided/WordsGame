@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
+    [Inject]
+    private GameSettings _gameSettings;
     public void OnDrop(PointerEventData eventData)
     {
-        if (gameObject.name == "ClusterBase" || gameObject.transform.childCount<GameSettings.Instance.MaxClustersUIPerSlot)
+        if (gameObject.name == "ClusterBase" || gameObject.transform.childCount<_gameSettings.MaxClustersUIPerSlot)
         {
             DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
             if (gameObject.name != "ClusterBase")

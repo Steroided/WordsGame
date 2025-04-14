@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 public class SMSound
 {
@@ -13,6 +14,9 @@ public class SMSound
     public Transform Attach;
     public bool IsValid;
 
+    [Inject]
+    private SoundManager _soundManager;
+
     public float GetVolume()
     {
         return SelfVolume;
@@ -22,7 +26,7 @@ public class SMSound
     {
         SelfVolume = volume;
         if (IsValid)
-            Source.volume = volume * SoundManager.Instance.GetSettings().GetSoundVolumeCorrected();
+            Source.volume = volume * _soundManager.GetSettings().GetSoundVolumeCorrected();
         return this;
     }
 
@@ -67,6 +71,6 @@ public class SMSound
     public void Stop()
     {
         if (IsValid)
-            SoundManager.Instance.Stop(this);
+            _soundManager.Stop(this);
     }
 }

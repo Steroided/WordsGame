@@ -2,9 +2,10 @@ using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Systems.SceneManagement {
-    public class SceneLoader : PersistentSingleton<SceneLoader>
+    public class SceneLoader : MonoBehaviour
     { 
         [SerializeField] Image _loadingBar;
         [SerializeField] float _fillSpeed = 0.5f;
@@ -13,6 +14,8 @@ namespace Systems.SceneManagement {
         [SerializeField] SceneGroup[] _sceneGroups;
 
         private int _currentLevel;
+        [Inject]
+        private RemoteConfigLoader _configLoader;
         public int CurrentLevel
         {
             get { return _currentLevel; }
@@ -27,17 +30,18 @@ namespace Systems.SceneManagement {
         private bool _isLoading;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
-
+        [Inject]
+        private GameSettings _gameSettings;
 
         private void Start()
         {
-            CurrentLevel = GameSettings.Instance.StartSceneIndex;
+            CurrentLevel = _gameSettings.StartSceneIndex;
         }
         public void LoadNextLevel()
         {
-            if (CurrentLevel < RemoteConfigLoader.Instance.TotalLevels)
+            if (CurrentLevel < _configLoader.TotalLevels)
                 CurrentLevel++;
-            else CurrentLevel = GameSettings.Instance.FirstLevelSceneIndex;
+            else CurrentLevel = _gameSettings.FirstLevelSceneIndex;
         }
 
         void Update() {

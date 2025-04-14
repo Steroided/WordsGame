@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -8,6 +9,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private CanvasGroup _group;
     public Transform ParentAfterDrag;
     private float _xOffset;
+    [Inject]
+    private GameSettings _gameSettings;
     private void Start()
     {
         _image = GetComponent<Image>();
@@ -17,7 +20,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _xOffset = GetComponent<RectTransform>().sizeDelta.x / GameSettings.Instance.OnDraggableOffsetXRatio;
+        _xOffset = GetComponent<RectTransform>().sizeDelta.x / _gameSettings.OnDraggableOffsetXRatio;
         ParentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();

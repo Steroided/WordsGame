@@ -7,6 +7,7 @@ using System.Threading;
 using Systems.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 using static GameVariables;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     private string[] _wordStrings;
     [SerializeField]
     private Word _wordPrefab;
+    [SerializeField]
+    private GameObject _clusterPrefab;
     [Header("Transforms")]
     [SerializeField]
     private Transform _wordsParent;
@@ -34,6 +37,23 @@ public class GameManager : MonoBehaviour
     private Button _backMainMenu;
     
     private Dictionary<int,bool> _validatedOrder = new Dictionary<int, bool>();
+
+    private GameSettings _gameSettings;
+    private RemoteConfigLoader _configLoader;
+    private SceneLoader _sceneLoader;
+
+    [Inject]
+    private DiContainer _wordsContainer;
+
+    [Inject]
+    private void Construct(GameSettings gameSettings, RemoteConfigLoader configLoader, SceneLoader sceneLoader)
+    {
+        _gameSettings = gameSettings;
+        _configLoader = configLoader;
+        _sceneLoader = sceneLoader;
+    }
+
+
     public async void Start()
     {
         await InitAsync();
@@ -41,7 +61,7 @@ public class GameManager : MonoBehaviour
     }
     private async UniTask InitAsync()
     {
-        RemoteConfigLoader.Instance.Init();
+        _configLoader.Init();
         UniTask waitAllTrue = UniTask.RunOnThreadPool(() =>
         {
             do
@@ -49,14 +69,14 @@ public class GameManager : MonoBehaviour
                 Thread.Sleep(100);
                 print("FetchNotCompletedYet");
             }
-            while (!RemoteConfigLoader.Instance.Fetched);
+            while (!_configLoader.Fetched);
 
         });
         await waitAllTrue;
     }
     private void Init()
     {
-        _wordStrings = RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level" + SceneLoader.Instance.CurrentLevel) ? RemoteConfigLoader.Instance.Words.AllWords["Level" + SceneLoader.Instance.CurrentLevel] : RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
+        _wordStrings = _configLoader.Words.AllWords.ContainsKey("Level" + _sceneLoader.CurrentLevel) ? _configLoader.Words.AllWords["Level" + _sceneLoader.CurrentLevel] : _configLoader.Words.AllWords["LevelDefault"];
         CreateWords(_wordStrings);
         CreateWordClusters();
         InitButtons();
@@ -69,11 +89,11 @@ public class GameManager : MonoBehaviour
     }
     private void NextLevel()
     {
-        SceneLoader.Instance.LoadNextLevel();
+        _sceneLoader.LoadNextLevel();
     }
     private void MainMenuLevel()
     {
-        SceneLoader.Instance.CurrentLevel = GameSettings.Instance.StartSceneIndex;
+        _sceneLoader.CurrentLevel = _gameSettings.StartSceneIndex;
     }
     private void Win()
     {
@@ -87,10 +107,11 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < _wordCount; i++)
         {           
-            Word w = Instantiate(_wordPrefab, _wordsParent);
+            var w = _wordsContainer.InstantiatePrefab(_wordPrefab, _wordsParent);
             w.gameObject.name = "Word" + i;
-            w.WordString = words[i];
-            _words.Add(w);
+            Word word = w.GetComponent<Word>();
+            word.WordString = words[i];
+            _words.Add(word);
         }
     }
     private void SetValidateButton(bool set) => _clusterValidateButton.gameObject.SetActive(set);
@@ -116,7 +137,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        if (_validatedOrder.Keys.Count!=GameSettings.Instance.MaxWords && !_validatedOrder.Values.Any(v => v == false))
+        if (_validatedOrder.Keys.Count!=_gameSettings.MaxWords && !_validatedOrder.Values.Any(v => v == false))
         {
             SetValidateButton(true);
             yield break;

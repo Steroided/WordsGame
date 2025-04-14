@@ -1,17 +1,9 @@
+using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameSettings", menuName = "Game/Settings")]
-public class GameSettings : ScriptableObject
+[Serializable]
+public class GameSettings
 {
-    static GameSettings _Instance;
-
-    public static GameSettings Instance
-    {
-        get
-        {
-            return _Instance ?? Resources.Load<GameSettings>("GameSettings");
-        }
-    }
     public int MaxClustersUIPerSlot = 1;
     public float OnDraggableOffsetXRatio = 1;
     public int FetchTimeoutMs = 6000;

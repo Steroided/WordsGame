@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"f22afe1c-2698-4e60-97fc-c17feb7afd55\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"bf7fa0b3-8db0-450f-a6cf-f6a054c8f7f5\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Words\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"AllWords\": {\r\n         
     \"Level1\": [\r\n            \"\u0437\u0430\u0434\u0438\u0440\u0430\",\r\n           
@@ -26,7 +26,7 @@ MonoBehaviour:
     [\r\n            \"\u0433\u043B\u0443\u043F\u044B\u0448\",\r\n            \"\u043F\u043E\u0434\u043A\u0430\u0442\",\r\n           
     \"\u0438\u0433\u0440\u0443\u0445\u0430\",\r\n            \"\u0442\u0443\u043F\u0438\u0437\u043C\"\r\n         
     ]\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"f22afe1c-2698-4e60-97fc-c17feb7afd55\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"bf7fa0b3-8db0-450f-a6cf-f6a054c8f7f5\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Words\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"AllWords\": {\r\n         
     \"Level1\": [\r\n            \"\u0437\u0430\u0434\u0438\u0440\u0430\",\r\n           

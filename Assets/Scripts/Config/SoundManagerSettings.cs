@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
-
-public class SoundManagerSettings : ScriptableObject {
+using System;
+[Serializable]
+public class SoundManagerSettings
+{
 
     public bool AutoPause = true;
 

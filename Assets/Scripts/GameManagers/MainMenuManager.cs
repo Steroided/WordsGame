@@ -1,6 +1,7 @@
 using Systems.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -8,8 +9,11 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private Button _start;
 
+    [Inject]
+    private SceneLoader _sceneLoader;
+
      void Awake()
     {
-        _start.onClick.AddListener(() => SceneLoader.Instance.LoadNextLevel());
+        _start.onClick.AddListener(() => _sceneLoader.LoadNextLevel());
     }
 }
