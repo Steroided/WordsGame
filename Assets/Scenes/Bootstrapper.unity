@@ -293,6 +293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 636259286}
     - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _loadingBar
+      value: 
+      objectReference: {fileID: 636259286}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
       propertyPath: loadingCamera
       value: 
       objectReference: {fileID: 5090410270840954702}
@@ -300,6 +304,54 @@ PrefabInstance:
       propertyPath: loadingCanvas
       value: 
       objectReference: {fileID: 316459887603929927}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _loadingCamera
+      value: 
+      objectReference: {fileID: 5090410270840954702}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _loadingCanvas
+      value: 
+      objectReference: {fileID: 316459887603929927}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[0].GroupName
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[1].GroupName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[2].GroupName
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[3].GroupName
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[4].GroupName
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[0].Scenes.Array.data[1].SceneType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[1].Scenes.Array.data[1].SceneType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[2].Scenes.Array.data[1].SceneType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[3].Scenes.Array.data[1].SceneType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448505892304949932, guid: 652c20edb6a544645b56319e9b5169bd, type: 3}
+      propertyPath: _sceneGroups.Array.data[4].Scenes.Array.data[1].SceneType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

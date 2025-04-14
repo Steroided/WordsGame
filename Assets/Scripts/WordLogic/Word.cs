@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Word : MonoBehaviour
 {
@@ -8,14 +9,16 @@ public class Word : MonoBehaviour
     public string WordString;
     [HideInInspector]
     public bool WordReady = false;
+    public bool WordValidated = false;
     public Symbol SymbolPrefab;
     public GameObject ClusterPrefab;
     public List<Symbol> Symbols;
 
-  
+    [Inject]
+    private DiContainer _clusterContainer;
+
     private void Start()
     {
-        print(WordString);
         SpawnSymbols();
     }
     public void SpawnSymbols()
@@ -30,7 +33,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster2";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -39,7 +42,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, int s3, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster3";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -49,7 +52,7 @@ public class Word : MonoBehaviour
     }
     public void CreateCluster(int s1, int s2, int s3, int s4, Transform clusterBase)
     {
-        GameObject cluster = Instantiate(ClusterPrefab, clusterBase);
+        GameObject cluster = _clusterContainer.InstantiatePrefab(ClusterPrefab, clusterBase);
         cluster.name = "Cluster4";
         Symbols[s1].transform.SetParent(cluster.transform, false);
         Symbols[s2].transform.SetParent(cluster.transform, false);
@@ -62,7 +65,6 @@ public class Word : MonoBehaviour
     {
         Cluster[] clusters = GetComponentsInChildren<Cluster>();
         string sumClusters = string.Empty;
-        print(clusters.Length);
         for(int i = clusters.Length-1; i >=0 ; i--)
         {
             sumClusters += clusters[i].Key;
@@ -71,35 +73,34 @@ public class Word : MonoBehaviour
         {
             if(sumClusters == check)
             {
-                print("WORDSTRUE");
-                StartCoroutine(SetColorIE(clusters, Color.green));
+                WordValidated = true;
+
                 return;
             }
             else
             {
-                print("WORDFALSE");
-                StartCoroutine(SetColorIE(clusters, Color.red));
+                WordValidated = false;
             }
         }
-        if (sumClusters == WordString)
-        {
-            
-        }
-        else
-        {
-            
-        }
+
     }
-    private IEnumerator SetColorIE(Cluster[] clusters, Color colorEvent)
+    public IEnumerator SetColorIE(Color colorEvent, bool hold)
     {
+        Cluster[] clusters = GetComponentsInChildren<Cluster>();
         foreach (Cluster cluster in clusters)
         {         
             cluster.SetClusterColor(colorEvent);
         }
-        yield return new WaitForSeconds(2);
-        foreach (Cluster cluster in clusters)
+        if (!hold)
         {
-            cluster.SetClusterColor(cluster.DefaultColor);
+            yield return new WaitForSeconds(2);
+
+            foreach (Cluster cluster in clusters)
+            {
+                cluster.SetClusterColor(cluster.DefaultColor);
+            }
         }
+
+       
     }
 }

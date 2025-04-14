@@ -1,9 +1,13 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
+using Systems.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 using static GameVariables;
 
 public class GameManager : MonoBehaviour
@@ -16,71 +20,132 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Word _wordPrefab;
     [SerializeField]
+    private GameObject _clusterPrefab;
+    [Header("Transforms")]
+    [SerializeField]
     private Transform _wordsParent;
     [SerializeField]
     private Transform _clusterBase;
-
+    [SerializeField]
+    private Transform _winPanel;
+    [Header("Buttons")]
     [SerializeField]
     private Button _clusterValidateButton;
-    async void Awake()
+    [SerializeField]
+    private Button _nextLevel;
+    [SerializeField]
+    private Button _backMainMenu;
+    
+    private Dictionary<int,bool> _validatedOrder = new Dictionary<int, bool>();
+
+    private GameSettings _gameSettings;
+    private RemoteConfigLoader _configLoader;
+    private SceneLoader _sceneLoader;
+
+    [Inject]
+    private DiContainer _wordsContainer;
+
+    [Inject]
+    private void Construct(GameSettings gameSettings, RemoteConfigLoader configLoader, SceneLoader sceneLoader)
     {
-        
-        RemoteConfigLoader.Instance.Init();
-        Task waitAllTrue = Task.Run(() =>
+        _gameSettings = gameSettings;
+        _configLoader = configLoader;
+        _sceneLoader = sceneLoader;
+    }
+
+
+    public async void Start()
+    {
+        await InitAsync();
+        Init();
+    }
+    private async UniTask InitAsync()
+    {
+        _configLoader.Init();
+        UniTask waitAllTrue = UniTask.RunOnThreadPool(() =>
         {
             do
             {
                 Thread.Sleep(100);
-                print("FetchNotCompleted");
+                print("FetchNotCompletedYet");
             }
-            while (!RemoteConfigLoader.Instance.Fetched);
+            while (!_configLoader.Fetched);
 
         });
         await waitAllTrue;
-        if (RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level1"))
-        {
-            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["Level1"];
-        }
-        else
-        {
-            _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
-        }
-       
-        _clusterValidateButton.onClick.AddListener(()=> ValidateClusters(_wordStrings));
+    }
+    private void Init()
+    {
+        _wordStrings = _configLoader.Words.AllWords.ContainsKey("Level" + _sceneLoader.CurrentLevel) ? _configLoader.Words.AllWords["Level" + _sceneLoader.CurrentLevel] : _configLoader.Words.AllWords["LevelDefault"];
         CreateWords(_wordStrings);
         CreateWordClusters();
+        InitButtons();
     }
-    void Start()
+    private void InitButtons()
     {
-       
+        _clusterValidateButton.onClick.AddListener(() => StartCoroutine(ValidateClusters(_wordStrings)));
+        _nextLevel.onClick.AddListener(() => NextLevel());
+        _backMainMenu.onClick.AddListener(()=>MainMenuLevel());
     }
-    public void WaitForFetchCompleted()
+    private void NextLevel()
     {
-
+        _sceneLoader.LoadNextLevel();
+    }
+    private void MainMenuLevel()
+    {
+        _sceneLoader.CurrentLevel = _gameSettings.StartSceneIndex;
+    }
+    private void Win()
+    {
+        for (int i = 0; i < _validatedOrder.Count; i++) 
+        {
+            _wordsParent.Find("Word" + _validatedOrder.ElementAt(i).Key).SetSiblingIndex(i);
+        }
+        _winPanel.gameObject.SetActive(true);
     }
     private void CreateWords(string[] words)
     {
         for (int i = 0; i < _wordCount; i++)
         {           
-            Word w = Instantiate(_wordPrefab, _wordsParent);
-            w.WordString = words[i];
-            _words.Add(w);
+            var w = _wordsContainer.InstantiatePrefab(_wordPrefab, _wordsParent);
+            w.gameObject.name = "Word" + i;
+            Word word = w.GetComponent<Word>();
+            word.WordString = words[i];
+            _words.Add(word);
         }
     }
-    private void PickWord()
-    {
+    private void SetValidateButton(bool set) => _clusterValidateButton.gameObject.SetActive(set);
 
-    }
-    private void PickMiddle()
+    private IEnumerator ValidateClusters(string[] words)
     {
-
-    }
-    public void ValidateClusters(string[] words)
-    {
-        foreach(Word w in _words)
+        SetValidateButton(false);
+        for(int i =0; i < _words.Count; i++)
         {
-            w.ValidateClusters(words);
+            _words[i].ValidateClusters(words);
+            if (!_words[i].WordValidated)
+            {
+                StartCoroutine(_words[i].SetColorIE(Color.red, false));
+
+            }
+            else
+            {
+                if (!_validatedOrder.ContainsKey(i))
+                _validatedOrder.Add(i, true);
+                StartCoroutine(_words[i].SetColorIE(new Color(0, 0, 0, 0), true));
+            }
         }
+
+        yield return new WaitForSeconds(2);
+
+        if (_validatedOrder.Keys.Count!=_gameSettings.MaxWords && !_validatedOrder.Values.Any(v => v == false))
+        {
+            SetValidateButton(true);
+            yield break;
+        }
+      
+          
+        print("win");
+        Win();
     }
     private void CreateWordClusters()
     {
@@ -91,8 +156,8 @@ public class GameManager : MonoBehaviour
     }
     private async void CreateWordClusterEntity(Word word)
     {
-        //ждем пока слово соберётся , при этом не мешаем остальным словам
-        Task waitAllTrue = Task.Run(() =>
+        //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ , пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        UniTask waitAllTrue = UniTask.RunOnThreadPool(() =>
         {
             do
             {
@@ -109,7 +174,6 @@ public class GameManager : MonoBehaviour
         CreateWordCluster(word);
       
     }
-
     private void CreateWordCluster(Word word)
     {
         ClusterMode mod = (ClusterMode)UnityEngine.Random.Range(0, Enum.GetNames(typeof(ClusterMode)).Length);
@@ -172,12 +236,6 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
-        Debug.Log(word.Symbols.Count);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

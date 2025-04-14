@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Zenject;
 
-public static class SoundManagerButtonsProvider
+public class SoundManagerButtonsProvider
 {
-    public static void PlaySound(string name)
+    [Inject]
+    private SoundManager _soundManager;
+    public void PlaySound(string name)
     {
-        SoundManager.PlaySound(name);
+        _soundManager.PlaySound(name);
     }
 
-    public static void PlaySoundNotPausable(string name)
+    public void PlaySoundNotPausable(string name)
     {
-        SoundManager.PlaySoundUI(name);
+        _soundManager.PlaySoundUI(name);
     }
 
-    public static void ChangeSoundVolume(float volume)
+    public void ChangeSoundVolume(float volume)
     {
-        SoundManager.SetSoundVolume(volume);
+        _soundManager.SetSoundVolume(volume);
     }
 
-    public static void ChangeMusicVolume(float volume)
+    public void ChangeMusicVolume(float volume)
     {
-        SoundManager.SetMusicVolume(volume);
+        _soundManager.SetMusicVolume(volume);
     }
 
-    public static void ToggleMusicMuted()
+    public void ToggleMusicMuted()
     {
-        SoundManager.SetMusicMuted(!SoundManager.GetMusicMuted());
+        _soundManager.SetMusicMuted(!_soundManager.GetMusicMuted());
     }
 
-    public static void ToggleSoundMuted()
+    public void ToggleSoundMuted()
     {
-        SoundManager.SetSoundMuted(!SoundManager.GetSoundMuted());
+        _soundManager.SetSoundMuted(!_soundManager.GetSoundMuted());
     }
 }

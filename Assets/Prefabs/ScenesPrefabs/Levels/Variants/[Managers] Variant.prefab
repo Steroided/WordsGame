@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4661446132347257662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197966487055569939}
+  - component: {fileID: 3083533471674246936}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1197966487055569939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661446132347257662}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 123.857086, y: 135.13031, z: 5.162337}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8684662222368443055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3083533471674246936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661446132347257662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
 --- !u!1 &4663191104662233267
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,9 +110,13 @@ MonoBehaviour:
   _words: []
   _wordCount: 4
   _wordPrefab: {fileID: 1772388582435900831, guid: 9270c7f2b1b8ff647a0ced223307650b, type: 3}
+  _clusterPrefab: {fileID: 946554554607692698, guid: 41a1917f1e8518a428c680b86d0edee4, type: 3}
   _wordsParent: {fileID: 0}
   _clusterBase: {fileID: 0}
+  _winPanel: {fileID: 0}
   _clusterValidateButton: {fileID: 0}
+  _nextLevel: {fileID: 0}
+  _backMainMenu: {fileID: 0}
 --- !u!1001 &6562451300775353252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,6 +175,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2563846674296688907, guid: 63927e0cc5b65ed4181fccb2a0de6acf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3796292658733106736}
+    - targetCorrespondingSourceObject: {fileID: 2563846674296688907, guid: 63927e0cc5b65ed4181fccb2a0de6acf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1197966487055569939}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63927e0cc5b65ed4181fccb2a0de6acf, type: 3}
 --- !u!4 &8684662222368443055 stripped

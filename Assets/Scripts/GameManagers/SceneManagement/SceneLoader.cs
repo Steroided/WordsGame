@@ -1,74 +1,81 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Systems.SceneManagement {
-    public class SceneLoader : PersistentSingleton<SceneLoader>
+    public class SceneLoader : MonoBehaviour
     { 
-        [SerializeField] Image loadingBar;
-        [SerializeField] float fillSpeed = 0.5f;
-        [SerializeField] Canvas loadingCanvas;
-        [SerializeField] Camera loadingCamera;
-        [SerializeField] SceneGroup[] sceneGroups;
-        
+        [SerializeField] Image _loadingBar;
+        [SerializeField] float _fillSpeed = 0.5f;
+        [SerializeField] Canvas _loadingCanvas;
+        [SerializeField] Camera _loadingCamera;
+        [SerializeField] SceneGroup[] _sceneGroups;
 
+        private int _currentLevel;
+        [Inject]
+        private RemoteConfigLoader _configLoader;
+        public int CurrentLevel
+        {
+            get { return _currentLevel; }
+            set
+            {
+                _currentLevel = value;
+                LoadSceneGroup(_currentLevel);
+            }
+        }
 
-        float targetProgress;
-        bool isLoading;
+        private float _targetProgress;
+        private bool _isLoading;
 
         public readonly SceneGroupManager manager = new SceneGroupManager();
+        [Inject]
+        private GameSettings _gameSettings;
 
-
-
-        void Awake() {
-            //TODO can remove
-            manager.OnSceneLoaded += sceneName => Debug.Log("Loaded: " + sceneName);
-            manager.OnSceneUnloaded += sceneName => Debug.Log("Unloaded: " + sceneName);
-            manager.OnSceneGroupLoaded += () => Debug.Log("Scene group loaded");
-        }
-
-        async void Start() 
+        private void Start()
         {
-            await LoadLevel(0);
+            CurrentLevel = _gameSettings.StartSceneIndex;
         }
-        public async Task LoadLevel(int level)
+        public void LoadNextLevel()
         {
-            await LoadSceneGroup(level);
+            if (CurrentLevel < _configLoader.TotalLevels)
+                CurrentLevel++;
+            else CurrentLevel = _gameSettings.FirstLevelSceneIndex;
         }
 
         void Update() {
-            if (!isLoading) return;
+            if (!_isLoading) return;
             
-            float currentFillAmount = loadingBar.fillAmount;
-            float progressDifference = Mathf.Abs(currentFillAmount - targetProgress);
+            float currentFillAmount = _loadingBar.fillAmount;
+            float progressDifference = Mathf.Abs(currentFillAmount - _targetProgress);
 
-            float dynamicFillSpeed = progressDifference * fillSpeed;
+            float dynamicFillSpeed = progressDifference * _fillSpeed;
     
-            loadingBar.fillAmount = Mathf.Lerp(currentFillAmount, targetProgress, Time.deltaTime * dynamicFillSpeed);
+            _loadingBar.fillAmount = Mathf.Lerp(currentFillAmount, _targetProgress, Time.deltaTime * dynamicFillSpeed);
         }
 
-        public async Task LoadSceneGroup(int index) {
-            loadingBar.fillAmount = 0f;
-            targetProgress = 1f;
+        public async UniTask LoadSceneGroup(int index) {
+            _loadingBar.fillAmount = 0f;
+            _targetProgress = 1f;
 
-            if (index < 0 || index >= sceneGroups.Length) {
+            if (index < 0 || index >= _sceneGroups.Length) {
                 Debug.LogError("Invalid scene group index: " + index);
                 return;
             }
 
             LoadingProgress progress = new LoadingProgress();
-            progress.Progressed += target => targetProgress = Mathf.Max(target, targetProgress);
+            progress.Progressed += target => _targetProgress = Mathf.Max(target, _targetProgress);
             
             EnableLoadingCanvas();
-            await manager.LoadScenes(sceneGroups[index], progress);
+            await manager.LoadScenes(_sceneGroups[index], progress);
             EnableLoadingCanvas(false);
         }
     
         void EnableLoadingCanvas(bool enable = true) {
-            isLoading = enable;
-            loadingCanvas.gameObject.SetActive(enable);
-            loadingCamera.gameObject.SetActive(enable);
+            _isLoading = enable;
+            _loadingCanvas.gameObject.SetActive(enable);
+            _loadingCamera.gameObject.SetActive(enable);
         }
         
     }

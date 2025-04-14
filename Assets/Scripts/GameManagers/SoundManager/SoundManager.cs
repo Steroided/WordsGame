@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
+using Zenject;
 
 public class SoundManager : MonoBehaviour
 {
+    [Inject]
     private SoundManagerSettings _settings;
 
     List<SMSound> _sounds = new List<SMSound>();
@@ -27,136 +28,136 @@ public class SoundManager : MonoBehaviour
 
 #region Public functions
 
-    public static void PlayMusic(string name)
+    public void PlayMusic(string name)
     {
-        Instance.PlayMusicInternal(name);
+        PlayMusicInternal(name);
     }
 
-    public static void StopMusic()
+    public void StopMusic()
     {
-        Instance.StopMusicInternal();
+        StopMusicInternal();
     }
 
-    public static SMSound PlaySound(AudioClip clip)
+    public SMSound PlaySound(AudioClip clip)
     {
-        return Instance.PlaySoundClipInternal(clip, true);
+        return PlaySoundClipInternal(clip, true);
     }
 
-    public static SMSound PlaySoundUI(AudioClip clip)
+    public SMSound PlaySoundUI(AudioClip clip)
     {
-        return Instance.PlaySoundClipInternal(clip, false);
+        return PlaySoundClipInternal(clip, false);
     }
 
-    public static SMSound PlaySound(string name, AssetBundle bundle)
+    public SMSound PlaySound(string name, AssetBundle bundle)
     {
-        return Instance.PlaySoundInternal(name, true);
+        return PlaySoundInternal(name, true);
     }
 
-    public static SMSound PlaySoundUI(string name, AssetBundle bundle)
+    public SMSound PlaySoundUI(string name, AssetBundle bundle)
     {
-        return Instance.PlaySoundInternal(name, false);
+        return PlaySoundInternal(name, false);
     }
 
-    public static SMSound PlaySound(string name)
+    public SMSound PlaySound(string name)
     {
-        return Instance.PlaySoundInternal(name, true);
+        return PlaySoundInternal(name, true);
     }
 
-    public static SMSound PlaySoundUI(string name)
+    public SMSound PlaySoundUI(string name)
     {
-        return Instance.PlaySoundInternal(name, false);
+        return PlaySoundInternal(name, false);
     }
 
     // Deprecated. Will be changed in future version
-    public static void PlaySoundWithDelay(string name, float delay, bool pausable = true)
+    public void PlaySoundWithDelay(string name, float delay, bool pausable = true)
     {
-        Instance.PlaySoundWithDelayInternal(name, delay, pausable);
+        PlaySoundWithDelayInternal(name, delay, pausable);
     }
 
-    public static void LoadSound(string name)
+    public void LoadSound(string name)
     {
-        Instance.LoadSoundInternal(name);
+        LoadSoundInternal(name);
     }
 
-    public static void UnloadSound(string name, bool force = false)
+    public void UnloadSound(string name, bool force = false)
     {
         if (!IsValid()) // Unload can be called from OnDestroy or OnDisable
             return;
 
-        Instance.UnloadSoundInternal(name, force);
+        UnloadSoundInternal(name, force);
     }
 
-    public static void Pause()
+    public void Pause()
     {
-        if (Instance._settings.AutoPause)
+        if (_settings.AutoPause)
             return;
 
         AudioListener.pause = true;
     }
 
-    public static void UnPause()
+    public void UnPause()
     {
-        if (Instance._settings.AutoPause)
+        if (_settings.AutoPause)
             return;
 
         AudioListener.pause = false;
     }
 
-    public static void StopAllPausableSounds()
+    public void StopAllPausableSounds()
     {
-        Instance.StopAllPausableSoundsInternal();
+        StopAllPausableSoundsInternal();
     }
 
     // Volume [0 - 1]
-    public static void SetMusicVolume(float volume)
+    public void SetMusicVolume(float volume)
     {
-        Instance._settings.SetMusicVolume(volume);
-        Instance.ApplyMusicVolume();
+        _settings.SetMusicVolume(volume);
+        ApplyMusicVolume();
     }
 
     // Volume [0 - 1]
-    public static float GetMusicVolume()
+    public float GetMusicVolume()
     {
-        return Instance._settings.GetMusicVolume();
+        return _settings.GetMusicVolume();
     }
 
-    public static void SetMusicMuted(bool mute)
+    public void SetMusicMuted(bool mute)
     {
-        Instance._settings.SetMusicMuted(mute);
-        Instance.ApplyMusicMuted();
+        _settings.SetMusicMuted(mute);
+        ApplyMusicMuted();
     }
 
-    public static bool GetMusicMuted()
+    public bool GetMusicMuted()
     {
-        return Instance._settings.GetMusicMuted();
-    }
-
-    // Volume [0 - 1]
-    public static void SetSoundVolume(float volume)
-    {
-        Instance._settings.SetSoundVolume(volume);
-        Instance.ApplySoundVolume();
+        return _settings.GetMusicMuted();
     }
 
     // Volume [0 - 1]
-    public static float GetSoundVolume()
+    public void SetSoundVolume(float volume)
     {
-        return Instance._settings.GetSoundVolume();
+       _settings.SetSoundVolume(volume);
+        ApplySoundVolume();
     }
 
-    public static void SetSoundMuted(bool mute)
+    // Volume [0 - 1]
+    public float GetSoundVolume()
     {
-        Instance._settings.SetSoundMuted(mute);
-        Instance.ApplySoundMuted();
+        return _settings.GetSoundVolume();
     }
 
-    public static bool GetSoundMuted()
+    public void SetSoundMuted(bool mute)
     {
-        return Instance._settings.GetSoundMuted();
+        _settings.SetSoundMuted(mute);
+        ApplySoundMuted();
+    }
+
+    public bool GetSoundMuted()
+    {
+        return _settings.GetSoundMuted();
     }
 
     // Check for valid if use SoundManager in OnDestroy()
-    public static bool IsValid()
+    public bool IsValid()
     {
         return !applicationIsQuitting;
     }
@@ -199,27 +200,9 @@ public class SoundManager : MonoBehaviour
     #endregion
 
     #region Singleton
-    private static SoundManager _instance;
     private static bool _inited;
 
-    public static SoundManager Instance
-    {
-        get
-        {
-            if (applicationIsQuitting)
-            {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(SoundManager) +
-                    "' already destroyed on application quit." +
-                    " Won't create again - returning null.");
-                return null;
-            }
 
-            if (_inited)
-                return _instance;
-
-            return new GameObject("SoundManager (singleton)").AddComponent<SoundManager>();
-        }
-    }
 
     private static bool applicationIsQuitting = false;
 
@@ -521,22 +504,9 @@ public class SoundManager : MonoBehaviour
     void Awake()
     {
         // Only one instance of SoundManager at a time!
-        if (_inited)
-        {
-            Destroy(gameObject);
-            return;
-        }
+
         _inited = true;
-        _instance = this;
 
-        DontDestroyOnLoad(this);
-
-        _settings = Resources.Load<SoundManagerSettings>("SoundManagerSettings");
-        if (_settings == null)
-        {
-            Debug.LogWarning("SoundManagerSettings not founded resources. Using default settings");
-            _settings = ScriptableObject.CreateInstance<SoundManagerSettings>();
-        }
 
         _settings.LoadSettings();
 
