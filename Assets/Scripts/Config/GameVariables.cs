@@ -6,5 +6,12 @@ public class GameVariables
         three,
         four
     }
+
+    public enum GameState
+    {
+        start,
+        play,
+        end
+    }
   
 }

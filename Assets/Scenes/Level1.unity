@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -224,6 +224,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.000010728836
       objectReference: {fileID: 0}
+    - target: {fileID: 4577908199817566116, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577908199817566116, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577908199817566116, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4871703881047007080, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -245,6 +257,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+--- !u!114 &2112306239948026603 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2992591722234036649, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+  m_PrefabInstance: {fileID: 2112306239948026602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2112306239948026604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4846923286216745381, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+  m_PrefabInstance: {fileID: 2112306239948026602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &2112306239948026605 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3489851723590255524, guid: 9102176e54ddc634bb51d7767e16ca57, type: 3}
+  m_PrefabInstance: {fileID: 2112306239948026602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2960697662219642141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,6 +297,14 @@ PrefabInstance:
       value: '[Managers]'
       objectReference: {fileID: 0}
     - target: {fileID: 5523806675125945145, guid: 19e28d0a61cdd3c4c99e7dc8abda6582, type: 3}
+      propertyPath: _winPanel
+      value: 
+      objectReference: {fileID: 2112306239948026605}
+    - target: {fileID: 5523806675125945145, guid: 19e28d0a61cdd3c4c99e7dc8abda6582, type: 3}
+      propertyPath: _nextLevel
+      value: 
+      objectReference: {fileID: 2112306239948026603}
+    - target: {fileID: 5523806675125945145, guid: 19e28d0a61cdd3c4c99e7dc8abda6582, type: 3}
       propertyPath: _clusterBase
       value: 
       objectReference: {fileID: 3356250928207765911}
@@ -265,6 +312,10 @@ PrefabInstance:
       propertyPath: _wordsParent
       value: 
       objectReference: {fileID: 1944095408520029596}
+    - target: {fileID: 5523806675125945145, guid: 19e28d0a61cdd3c4c99e7dc8abda6582, type: 3}
+      propertyPath: _backMainMenu
+      value: 
+      objectReference: {fileID: 2112306239948026604}
     - target: {fileID: 5523806675125945145, guid: 19e28d0a61cdd3c4c99e7dc8abda6582, type: 3}
       propertyPath: _clusterValidateButton
       value: 

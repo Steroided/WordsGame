@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using Zenject;
 
 public class OptionsManager : MonoBehaviour {
     [Header("Buttons")]
@@ -8,6 +8,8 @@ public class OptionsManager : MonoBehaviour {
     private Button _optionsButton;
     [SerializeField]
     private Button _soundButton;
+    [SerializeField]
+    private Button _backButton;
     [Header("Sliders")]
     [SerializeField]
     private Slider _musicSlider;
@@ -17,18 +19,32 @@ public class OptionsManager : MonoBehaviour {
     [SerializeField]
     private GameObject _pausePanel;
 
+    private SoundManagerSettings _soundManagerSettings;
+    private SoundManagerButtonsProvider _soundManagerButtonsProvider;
+    private SoundManager _soundManager;
+    [Inject]
+    private void Construct(SoundManagerButtonsProvider soundManagerButtonsProvider, SoundManager soundManager, SoundManagerSettings soundManagerSettings)
+    {
+        _soundManagerSettings = soundManagerSettings;
+        _soundManagerButtonsProvider = soundManagerButtonsProvider;
+        _soundManager = soundManager;
+    }
+  
+    
+
     public void Start()
     {
         Init();
     }
     public void Init()
     {
-        SoundManager.PlayMusic("Swinging Pants");
+        _soundManager.PlayMusic("Swinging Pants");
 
-        _optionsButton.onClick.AddListener(() => SoundManagerButtonsProvider.PlaySound("Click1"));
+        _optionsButton.onClick.AddListener(() => _soundManagerButtonsProvider.PlaySound("Click1"));
         _optionsButton.onClick.AddListener(() => TogglePause());
-        _soundButton.onClick.AddListener(() => SoundManagerButtonsProvider.ToggleMusicMuted());
-        _soundButton.onClick.AddListener(() => SoundManagerButtonsProvider.ToggleSoundMuted());
+        _backButton.onClick.AddListener(() => TogglePause());
+        _soundButton.onClick.AddListener(() => _soundManagerButtonsProvider.ToggleMusicMuted());
+        _soundButton.onClick.AddListener(() => _soundManagerButtonsProvider.ToggleSoundMuted());
     }
     public void TogglePause()
     {
@@ -40,11 +56,11 @@ public class OptionsManager : MonoBehaviour {
 
     void OnEnable()
     {
-        SoundManager.LoadSound("phaserUp1");
+        _soundManager.LoadSound("phaserUp1");
     }
 
     void OnDisable()
     {
-        SoundManager.UnloadSound("phaserUp1");
+        _soundManager.UnloadSound("phaserUp1");
     }
 }

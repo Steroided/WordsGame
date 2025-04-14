@@ -1,43 +1,33 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-
-public class RemoteConfigLoader : PersistentSingleton<RemoteConfigLoader>
+using Zenject;
+public class RemoteConfigLoader : MonoBehaviour
 {
     public WordsForLevels Words;
+    [HideInInspector]
+    public int TotalLevels = 1;
     public bool Fetched = false;
+
+    [Inject]
+    private GameSettings _gameSettings;
     // Start is called before the first frame update
     private void Awake()
     {
-        Words.AllWords.Add("LevelDefault", GameSettings.Instance.WordsLevelDefault);
-        foreach (string ss in Words.AllWords["LevelDefault"])
-        {
-            Debug.Log(ss);
-        }
+        Words.AllWords.Add("LevelDefault", _gameSettings.WordsLevelDefault);
     }
     public void Init()
     {
 
     }
-    public async Task DoFetch()
+    public async UniTask DoFetch()
     {
-        RemoteJsonParser parser = new RemoteJsonParser();
-
+        RemoteJsonParser parser = new RemoteJsonParser(_gameSettings);
 
         var fetchSucess = await parser.FetchAsync();
-        string[] s = null;
-        if (fetchSucess != null)
-        {
-            Words = fetchSucess;
-            s = Words.AllWords["Level1"];
-        }
-        else s = Words.AllWords["LevelDefault"];
-
+        Words = fetchSucess ?? Words;
+        TotalLevels = Words.AllWords.Count;
         Fetched = true;
-
-        foreach (string ss in s)
-        {
-            Debug.Log(ss);
-        }
+        print("Fetched");
     }
     async void Start()
     {
