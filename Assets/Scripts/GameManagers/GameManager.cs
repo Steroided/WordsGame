@@ -1,14 +1,12 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Systems.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using static GameVariables;
 
 public class GameManager : MonoBehaviour
@@ -29,38 +27,53 @@ public class GameManager : MonoBehaviour
     private Transform _winPanel;
     [Header("Buttons")]
     [SerializeField]
-    private UnityEngine.UI.Button _clusterValidateButton;
+    private Button _clusterValidateButton;
     [SerializeField]
-    private UnityEngine.UI.Button _nextLevel;
+    private Button _nextLevel;
     [SerializeField]
-    private UnityEngine.UI.Button _backMainMenu;
+    private Button _backMainMenu;
     
     private Dictionary<int,bool> _validatedOrder = new Dictionary<int, bool>();
-    async void Awake()
+    public async void Start()
     {
-        
+        await InitAsync();
+        Init();
+    }
+    private async UniTask InitAsync()
+    {
         RemoteConfigLoader.Instance.Init();
-        Task waitAllTrue = Task.Run(() =>
+        UniTask waitAllTrue = UniTask.RunOnThreadPool(() =>
         {
             do
             {
                 Thread.Sleep(100);
-                print("FetchNotCompleted");
+                print("FetchNotCompletedYet");
             }
             while (!RemoteConfigLoader.Instance.Fetched);
 
         });
         await waitAllTrue;
-      
-        _wordStrings = RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level" + SceneLoader.Instance.CurrentLevel) ? RemoteConfigLoader.Instance.Words.AllWords["Level"+ SceneLoader.Instance.CurrentLevel] : _wordStrings = RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
-        _clusterValidateButton.onClick.AddListener(()=> StartCoroutine(ValidateClusters(_wordStrings)));
-        _nextLevel.onClick.AddListener(() => NextLevel());
+    }
+    private void Init()
+    {
+        _wordStrings = RemoteConfigLoader.Instance.Words.AllWords.ContainsKey("Level" + SceneLoader.Instance.CurrentLevel) ? RemoteConfigLoader.Instance.Words.AllWords["Level" + SceneLoader.Instance.CurrentLevel] : RemoteConfigLoader.Instance.Words.AllWords["LevelDefault"];
         CreateWords(_wordStrings);
         CreateWordClusters();
+        InitButtons();
+    }
+    private void InitButtons()
+    {
+        _clusterValidateButton.onClick.AddListener(() => StartCoroutine(ValidateClusters(_wordStrings)));
+        _nextLevel.onClick.AddListener(() => NextLevel());
+        _backMainMenu.onClick.AddListener(()=>MainMenuLevel());
     }
     private void NextLevel()
     {
         SceneLoader.Instance.LoadNextLevel();
+    }
+    private void MainMenuLevel()
+    {
+        SceneLoader.Instance.CurrentLevel = GameSettings.Instance.StartSceneIndex;
     }
     private void Win()
     {
@@ -122,8 +135,8 @@ public class GameManager : MonoBehaviour
     }
     private async void CreateWordClusterEntity(Word word)
     {
-        //ждем пока слово соберётся , при этом не мешаем остальным словам
-        Task waitAllTrue = Task.Run(() =>
+        //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ , пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        UniTask waitAllTrue = UniTask.RunOnThreadPool(() =>
         {
             do
             {
@@ -202,7 +215,6 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
-        Debug.Log(word.Symbols.Count);
     }
 
 }

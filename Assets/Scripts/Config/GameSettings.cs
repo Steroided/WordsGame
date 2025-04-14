@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameSettings", menuName = "Game/Settings")]
@@ -18,7 +16,8 @@ public class GameSettings : ScriptableObject
     public float OnDraggableOffsetXRatio = 1;
     public int FetchTimeoutMs = 6000;
     public int MaxWords = 4;
-    public int TotalLevels = 4;
     public int MaxSymbolsPerWord = 6;
+    public int StartSceneIndex = 0;
+    public int FirstLevelSceneIndex = 1;
     public string[] WordsLevelDefault;
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Eflatun.SceneReference;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -19,7 +19,7 @@ namespace Systems.SceneManagement {
         
         SceneGroup ActiveSceneGroup;
         
-        public async Task LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false) { 
+        public async UniTask LoadScenes(SceneGroup group, IProgress<float> progress, bool reloadDupScenes = false) { 
             ActiveSceneGroup = group;
             var loadedScenes = new List<string>();
 
@@ -56,7 +56,7 @@ namespace Systems.SceneManagement {
             // Wait until all AsyncOperations in the group are done
             while (!operationGroup.IsDone || !handleGroup.IsDone) {
                 progress?.Report((operationGroup.Progress + handleGroup.Progress) / 2);
-                await Task.Delay(100);
+                await UniTask.Delay(100);
             }
 
             Scene activeScene = SceneManager.GetSceneByName(ActiveSceneGroup.FindSceneNameByType(SceneType.ActiveScene));
@@ -68,7 +68,7 @@ namespace Systems.SceneManagement {
             OnSceneGroupLoaded.Invoke();
         }
 
-        public async Task UnloadScenes() { 
+        public async UniTask UnloadScenes() { 
             var scenes = new List<string>();
             var activeScene = SceneManager.GetActiveScene().name;
             
@@ -106,7 +106,7 @@ namespace Systems.SceneManagement {
 
             // Wait until all AsyncOperations in the group are done
             while (!operationGroup.IsDone) {
-                await Task.Delay(100); // delay to avoid tight loop
+                await UniTask.Delay(100); // delay to avoid tight loop
             }
             
         }

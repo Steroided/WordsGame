@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxClustersUIPerSlot: 1
   OnDraggableOffsetXRatio: 5
-  FetchTimeoutMs: 6000
+  FetchTimeoutMs: 1
   MaxWords: 4
   MaxSymbolsPerWord: 6
+  StartSceneIndex: 0
+  FirstLevelSceneIndex: 1
   WordsLevelDefault:
   - "\u0440\u0435\u043B\u0430\u043A\u0441"
   - "\u0432\u0438\u043D\u0442\u0430\u0436"

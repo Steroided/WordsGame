@@ -16,7 +16,6 @@ public class Word : MonoBehaviour
   
     private void Start()
     {
-        print(WordString);
         SpawnSymbols();
     }
     public void SpawnSymbols()
